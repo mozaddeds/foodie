@@ -1,17 +1,30 @@
 const searchBtn = document.getElementById("search-btn").addEventListener("click", function(){
     
     const foodSection = document.getElementById("foodsLists");
-    foodSection.innerHTML = ``;
+    if (foodSection!=null) {
+
+        foodSection.innerHTML = ``;
+    }
     const foodDetailSection = document.getElementById("foodDetails");
-    foodDetailSection.innerHTML = ``;
+    if (foodDetailSection!=null){
+
+        foodDetailSection.innerHTML = ``;
+    }
+
+    const foodErrorSection = document.getElementById("foodDetails");
+    if (foodDetailSection!=null){
+
+        foodDetailSection.innerHTML = ``;
+    }
+
     
     searchValue = document.getElementById("searchPlace").value;
 
     if (searchValue.length == 1) {
         var searchUrl = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchValue}`
         fetch(searchUrl)
-        .then(res => res.json())
         .catch(error => displayError(error))
+        .then(res => res.json())
         .then(data => displayFoods(data.meals));
         
     }
@@ -19,39 +32,58 @@ const searchBtn = document.getElementById("search-btn").addEventListener("click"
     else if (searchValue.length > 1) {
         var searchUrl = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`
         fetch(searchUrl)
-        .then(res => res.json())
+        .then(check)
         .catch(error => displayError(error))
+        .then(res => res.json())
         .then(data => displayFoods(data.meals));
     }
     
 })
 
+var check = function(response) {
+    if(!response.ok)
+    throw Error();
+    displayError(response);
+    return response;
+}
+
 
 const displayError = error => {
-    const errorPart = document.getElementById("foodSection");
-    errorPart.innerHTML = `
-    <h1>Seems like you have mistaken while searching! Don't worry, you can use google to know what search and try again!</h1>
-    `
+    const errorPart = document.getElementById("foodsLists");
+    // errorPart.innerHTML = `
+    // <h1>Seems like you have mistaken while searching! Don't worry, you can use google to know what search and try again!</h1>
+    // `
 }
 
 const displayFoods = foods => {
 
-    const foodsDiv = document.getElementById("foodsLists");
-    foods.forEach(food => {
-        
-        const foodDiv = document.createElement('div');
-        foodDiv.className = 'foodBox';
+    if(foods!=null){
 
-        const foodInfo = `
-            <div id="foodArea" onclick="displayFoodDetail('${food.idMeal}')">
-            <img src="${food.strMealThumb}">
-            <h3>${food.strMeal}</h3>
-            </div>
-        ` ;
+        const foodsDiv = document.getElementById("foodsLists");
+        foods.forEach(food => {
+            
+            const foodDiv = document.createElement('div');
+            foodDiv.className = 'foodBox';
+    
+            const foodInfo = `
+                <div id="foodArea" onclick="displayFoodDetail('${food.idMeal}')">
+                <img src="${food.strMealThumb}">
+                <h3>${food.strMeal}</h3>
+                </div>
+            ` ;
+    
+            foodDiv.innerHTML = foodInfo;
+            foodsDiv.appendChild(foodDiv);
+        });
+    }
 
-        foodDiv.innerHTML = foodInfo;
-        foodsDiv.appendChild(foodDiv);
-    });
+    else {
+        const errorPart = document.getElementById("foodsLists");
+        errorPart.innerHTML = `
+        <h1>Seems like you have mistaken while searching! Don't worry, you can use google to know what search and try again!</h1>
+        `
+    }
+    
 }
 
 const displayFoodDetail = name => {
@@ -79,6 +111,3 @@ const renderFoodInfo = foods => {
         `
     }); 
 }
-
-
-// const foodEmpty = document.getElementById("foodsLists");
