@@ -1,0 +1,39 @@
+#foodsLists {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    
+}
+
+.search-box {
+    padding-top: 50px;
+    padding-bottom: 80px;
+    
+}
+
+
+
+#foodArea {
+    
+    padding: 25px;
+    border-radius: 50px;
+    text-align: center;
+    width: 200px;
+}
+
+.sidebar {
+    width: 700px;
+}
+
+#foodArea img {
+    width: 200px;
+}
+
+.sidebar img{
+    width : 200px;
+    padding: 20px;
+}
+
+.items {
+    padding-left: 70px;
+}
