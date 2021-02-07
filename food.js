@@ -50,9 +50,6 @@ var check = function(response) {
 
 const displayError = error => {
     const errorPart = document.getElementById("foodsLists");
-    // errorPart.innerHTML = `
-    // <h1>Seems like you have mistaken while searching! Don't worry, you can use google to know what search and try again!</h1>
-    // `
 }
 
 const displayFoods = foods => {
